@@ -1,6 +1,6 @@
 {
     "require": {
-
+        "robmorgan/phinx": "^0.13.2"
     },
     "autoload": {
         "psr-4": {

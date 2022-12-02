@@ -1,2 +1,21 @@
 <?php
+require_once('../vendor/autoload.php');
+
+// Library managment system
+//Duomenu bazes
+
+/** 
+ * books: id, title, author, year_released, quantity
+ * user: id, name, email, password, is_active, is_admin
+ * user_books: user_id, book_id, created_at, deleted_at  
+ * DONE
+ */
+
+/**
+ * Routes: booklist, userbooks, users, register, login, takebook, returnbook
+ */
+
+ 
+
+
 
