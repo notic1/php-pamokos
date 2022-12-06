@@ -6,14 +6,14 @@ use App\Config\Config;
 
 class App
 {
-    private static DB $db;
+    private static DB $database;
 
     public function __construct(
         private array $request,
         private Router $router,
         private Config $config
     ) {
-        self::$db = new DB($config->db);
+        self::$database = new DB($config->db);
     }
 
     public function run()
@@ -26,6 +26,6 @@ class App
 
     public static function db()
     {
-        return static::$db;
+        return static::$database;
     }
 }

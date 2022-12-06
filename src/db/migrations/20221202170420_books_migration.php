@@ -20,10 +20,10 @@ final class BooksMigration extends AbstractMigration
     {
         $table = $this->table('books');
 
-        $table->addColumn('title', 'text')
+        $table->addColumn('', 'text')
             ->addColumn('author', 'string')
             ->addColumn('year_released', 'date')
-            ->addColumn('quantity', 'integer');
+            ->addColumn('quantity', 'integer', ['default' => 100]);
 
         $table->create();
     }

@@ -21,16 +21,18 @@ require_once('../vendor/autoload.php');
  * Routes: booklist, userbooks, users, register, login, takebook, returnbook
  */
 
+// Uzkraunam is .env failo kintamuosius i $_ENV globalu kintamaji
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
+// Uzregistrujam routus
 $router = new Router;
-
 $router->register('get', '/', [HomeController::class, 'index']);
 
+//Nustatom kur musu views failai
 define('VIEW_PATH', __DIR__ . '/../views/');
 
-
+// Boostrapinam aplikacija /foo/bar
 (new App(
     [
         'method' => $_SERVER['REQUEST_METHOD'],
