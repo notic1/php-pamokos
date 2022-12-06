@@ -21,12 +21,8 @@ class View
         if (!file_exists($viewPath)) {
             throw new ViewNotFound();
         }
-
-        extract($this->arguments);
         
         include VIEW_PATH . 'layouts/app.php';
-
-        return ob_get_clean();
     }
 
     public static function make(string $view, array $arguments)
@@ -37,5 +33,10 @@ class View
     public function __toString()
     {
         return $this->render();
+    }
+
+    public function __get($name)
+    {
+        return $this->arguments[$name] ?? null;
     }
 }

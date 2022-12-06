@@ -18,9 +18,9 @@ class UserSeeder extends AbstractSeed
         $seeds = [];
         for($i = 0; $i < 10; $i++) {
             $seeds[$i] = [
-                'email'     => "test$i@test.com",
-                'name'      => 'Lorem ipsum',
-                'password'  => md5('password'),
+                'email'     => "john.doe$i@gmail.com",
+                'name'      => 'John Doe',
+                'password'  => password_hash('password', PASSWORD_BCRYPT),
                 'is_active' => random_int(0, 100) < 50 ? true : false,
                 'is_admin' => random_int(0, 100) < 20 ? true : false
             ];
