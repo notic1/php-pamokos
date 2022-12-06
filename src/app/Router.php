@@ -23,15 +23,15 @@ class Router
         if (!$action) {
             throw new RouteNotFoundException();
         }
-
         if(is_callable($action)) {
             return call_user_func($action);
         }
 
         if (is_array($action)) {
-
+            
             [$class, $method] = $action;
             // pasitikrinam ar controleri/clase egzistuoja
+            
             if (class_exists($class)) {
                 //suskuriam objekta is klases
                 $object = new $class; 

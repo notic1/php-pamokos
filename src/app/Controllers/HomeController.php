@@ -3,20 +3,16 @@
 namespace App\Controllers;
 
 use App\DB;
+use App\Models\User;
 use App\View;
 
 class HomeController
 {
     public function index()
     {
-        $pdo = (new DB([
-            'driver' => $_ENV['DB_DRIVER'],
-            'host' => $_ENV['DB_HOST'],
-            'database' => $_ENV['DB_DATABASE'],
-            'user' => $_ENV['DB_USER'],
-            'password' => $_ENV['DB_PASSWORD'],
-        ]));
+        $user = new User();
+        $user = $user->create('Jhoana doe', 'john@doe.com', password_hash('password', PASSWORD_BCRYPT), 1, 0);   
         
-        echo View::make('home/index', ['foo' => 'bar']);
+        echo View::make('home/index', ['user' => $user]);
     }
 }

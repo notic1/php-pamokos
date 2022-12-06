@@ -1,6 +1,8 @@
 <?php
 
-use App\DB;
+use App\App;
+use App\Config\Config;
+use App\Controllers\HomeController;
 use App\Router;
 
 require_once('../vendor/autoload.php');
@@ -24,14 +26,16 @@ $dotenv->load();
 
 $router = new Router;
 
-$router->register('get', '/', [App\Controllers\HomeController::class, 'index']);
-$router->register('get', '/foo', function() {
-    echo 'Testas';
-});
+$router->register('get', '/', [HomeController::class, 'index']);
 
 define('VIEW_PATH', __DIR__ . '/../views/');
 
-$router->resolve(
-    method: $_SERVER['REQUEST_METHOD'],
-    uri: $_SERVER['REQUEST_URI']
-);
+
+(new App(
+    [
+        'method' => $_SERVER['REQUEST_METHOD'],
+        'uri' => $_SERVER['REQUEST_URI']
+    ],
+    $router,
+    new Config($_ENV)
+))->run();

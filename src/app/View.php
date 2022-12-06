@@ -23,6 +23,8 @@ class View
         }
         
         include VIEW_PATH . 'layouts/app.php';
+
+        return ob_get_clean();
     }
 
     public static function make(string $view, array $arguments)
