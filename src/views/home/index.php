@@ -3,5 +3,7 @@
 </h1>
 
 <div>
-    <?php var_dump($this->book) ?>
+    
+    
+
 </div>

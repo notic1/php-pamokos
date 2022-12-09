@@ -27,7 +27,7 @@ class View
         return ob_get_clean();
     }
 
-    public static function make(string $view, array $arguments)
+    public static function make(string $view, array $arguments = [])
     {
         return new static($view, $arguments);
     }

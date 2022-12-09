@@ -2,20 +2,7 @@
 
 namespace App\Models;
 
-class User extends BaseModel
+class User extends Authenticatable
 {
-    protected array $fields = [
-        'name',
-        'email',
-        'password',
-        'is_active',
-        'is_admin'
-    ];
-
     protected string $table = 'users';
-
-    public function createWithSpread(...$args)
-    {
-
-    }
 }

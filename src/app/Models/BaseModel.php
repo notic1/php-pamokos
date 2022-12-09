@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\App;
 use App\DB;
+use PDOException;
 
-abstract class BaseModel
+abstract class BaseModel implements ModelInterface
 {
+    use PreparesStatements;
+
     protected DB $pdo;
     protected array $values;
 
@@ -15,7 +18,8 @@ abstract class BaseModel
         $this->pdo = App::db();
     }
 
-    public function create($arguments) { 
+    public function create(array $arguments): self
+    { 
         $this->fields = array_keys($arguments);
         $values = array_values($arguments);
         
@@ -29,7 +33,8 @@ abstract class BaseModel
         return $this->find((int)$id);
     }
 
-    public function update($arguments) { 
+    public function update(array $arguments): self
+    { 
         $this->fields = array_keys($arguments);
         $values = array_values($arguments);
         array_push($values, $this->id);
@@ -44,7 +49,7 @@ abstract class BaseModel
         return $this;
     }
 
-    public function find(int $id)
+    public function find(int $id): self
     {
         $fetchStatement = $this->pdo->prepare(
             'SELECT * FROM '. $this->table .' WHERE id = ?'
@@ -60,34 +65,40 @@ abstract class BaseModel
 
         return $this;
     }
+
+    public function delete(): bool
+    {
+        try {
+            $statement = $this->pdo->prepare(
+                'DELETE FROM ' . $this->table . ' WHERE id = ?'
+            );
     
-    private function fieldsCount()
-    {
-        $requiredFields = '';
+            $statement->execute([$this->id]);
+        } catch (PDOException $exception) {
 
-        foreach($this->fields as $key => $field) {
-            if (count($this->fields) === $key + 1) {
-                $requiredFields .= '?';
-            } else {
-                $requiredFields .= '?, ';
-            }
-
+            return false;
         }
 
-        return $requiredFields;
+        return true;
     }
 
-    private function prepareUpdateStatement(array $arguments)
+    public function findByValue(string $key, string $value): void
     {
-        $statement = '';
-        foreach ($arguments as $key => $value) {
-            $statement .= $key . ' = ? ';
+        $statement = $this->pdo->prepare(
+            'SELECT * FROM ' . $this->table . ' WHERE ' . $key . ' = ?'
+        );
+
+        $statement->execute([$value]);
+        $result = $statement->fetch();
+
+        if (!$result) {
+            throw new \Exception('Irasas nerastas');
         }
 
-        return $statement;
+        $this->values = $result;
     }
 
-    public function __get($name)
+    public function __get($name): mixed
     {
         return $this->values[$name] ?? null;
     }
