@@ -14,6 +14,10 @@ class Controller
         $validated = [];
 
         foreach ($data as $key => $value) {
+            if ($key === 'id') {
+                continue;
+            }
+            
             if (isset($validationRules[$key])) {
                 $rules = $validationRules[$key];
                 if (empty($rules)) {
@@ -52,7 +56,10 @@ class Controller
                 'min:6' => strlen($value) >= (int)explode(':', $rule)[1] ? false : 'Too short',
                 'required' => strlen($value) > 0 ? false : 'This field is required',
                 'confirmed' => $value === $data[$key . '-confirmation'] ? false : 'This field must be confirmed',
-                'email' => filter_var($value, FILTER_VALIDATE_EMAIL) ? false : 'This field must be valid email'
+                'email' => filter_var($value, FILTER_VALIDATE_EMAIL) ? false : 'This field must be valid email',
+                'string' => is_string($value) ? false : 'This field must be a string',
+                'integer' => is_int((int)$value) ? false : 'This field must be a integer',
+                'date' => $this->validateDate($value) ? false : 'This field must be valid date (YYYY-mm-dd)'
             };
 
             if ($error) {
@@ -61,5 +68,13 @@ class Controller
         }
         
         return $errors;
+    }
+
+    private function validateDate($date, $format = 'Y-m-d')
+    {
+
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+
     }
 }

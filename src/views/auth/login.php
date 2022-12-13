@@ -1,8 +1,8 @@
 <div class="col-6 mx-auto">
     <form action="/login" method="post">
-        <?php if ($_SESSION['login_error']) { ?>
+        <?php if (isset($_SESSION['login_error']) && $_SESSION['login_error']) { ?>
             <div style="display: block" class="invalid-feedback">
-                Failed to login
+                <?php echo $_SESSION['login_error_message'] ?? 'Failed to login' ?>
             </div>
         <?php } ?>
         <div>

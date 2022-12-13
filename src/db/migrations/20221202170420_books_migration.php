@@ -22,8 +22,9 @@ final class BooksMigration extends AbstractMigration
 
         $table
             ->addColumn('author', 'string')
+            ->addColumn('title', 'string')
             ->addColumn('year_released', 'date')
-            ->addColumn('quantity', 'integer', ['default' => 100]);
+            ->addColumn('quantity', 'integer', ['default' => 1]);
 
         $table->create();
     }

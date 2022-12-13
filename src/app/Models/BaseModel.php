@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\App;
 use App\DB;
+use PDO;
 use PDOException;
 
 abstract class BaseModel implements ModelInterface
@@ -37,12 +38,12 @@ abstract class BaseModel implements ModelInterface
     { 
         $this->fields = array_keys($arguments);
         $values = array_values($arguments);
-        array_push($values, $this->id);
-        
+        array_push($values, $this->id);    
+
         $statement = $this->pdo->prepare(
-            'UPDATE '. $this->table .' SET '. $this->prepareUpdateStatement($arguments) . 'WHERE id = ?'
+            'UPDATE '. $this->table .' SET '. $this->prepareUpdateStatement($arguments) . ' WHERE id = ?'
         );
-        
+
         $statement->execute($values);
         $this->values = array_merge($this->values, $arguments);
 
@@ -96,6 +97,18 @@ abstract class BaseModel implements ModelInterface
         }
 
         $this->values = $result;
+    }
+
+    public function getAll(): array
+    {
+        $statement = $this->pdo->prepare(
+            'SELECT * FROM ' . $this->table
+        );
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_CLASS, static::class);
+        
+        return $result;
     }
 
     public function __get($name): mixed

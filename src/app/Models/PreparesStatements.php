@@ -24,9 +24,10 @@ trait PreparesStatements
     {
         $statement = '';
         foreach ($arguments as $key => $value) {
-            $statement .= $key . ' = ? ';
+
+            $statement .= $key . ' = ?, ';
         }
 
-        return $statement;
+        return rtrim(trim($statement), ',');
     }
 }

@@ -28,4 +28,9 @@ class App
     {
         return static::$database;
     }
+
+    public static function clearSessionMessages()
+    {
+        unset($_SESSION['success_message']);
+    }
 }

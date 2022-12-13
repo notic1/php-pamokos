@@ -28,11 +28,19 @@ class AuthController extends Controller
 
     public function authenticate()
     {
+        unset($_SESSION['login_error']);
+
         $email = $_POST['email'];
         $password = $_POST['password'];
-
-        $user = new User;
-        $user->login($email, $password);
+        
+        if ($email && $password) {
+            $user = new User;
+            $user->login($email, $password);
+        } else {
+            $_SESSION['login_error_message'] = 'Enter user name and password';
+            $_SESSION['login_error'] = true;
+            return header('Location: /login');
+        }
     }
 
     public function store()

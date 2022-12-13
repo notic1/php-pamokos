@@ -4,6 +4,8 @@ namespace App\Models;
 
 class Authenticatable extends BaseModel
 {
+    public static self $user;
+
     public static function authenticated()
     {
         if (isset($_COOKIE['user_session'])) {
@@ -12,6 +14,19 @@ class Authenticatable extends BaseModel
         }
 
         return false;
+    }
+
+    public static function getUser()
+    {
+        if (self::authenticated()) {
+            if (isset(static::$user)) {
+    
+                return static::$user;
+            }
+    
+            $user = new self;
+            static::$user = $user->find(str_replace($_ENV['USER_SALT'], '', base64_decode($_COOKIE['user_session'])));
+        }
     }
 
     public function setSession()
