@@ -30,16 +30,24 @@
                             <td><?= $book->year_released ?></td>
                             <td><?= $book->quantity ?></td>
                             <td>
-                                <a class="btn btn-warning" href="/books/edit?id=<?= $book->id ?>">
-                                    Edit
-                                </a>
-                                <form action="/books/delete" method="POST">
-                                    <input type="hidden" name="id" value="<?= $book->id ?>">
-                                    <button class="btn btn-danger" type="submit">
-                                        Delete
-                                    </button>
-                                </form>
-
+                                <?php if (App\Models\User::isAdmin()) { ?>
+                                    <a class="btn btn-warning" href="/books/edit?id=<?= $book->id ?>">
+                                        Edit
+                                    </a>
+                                    <form action="/books/delete" method="POST">
+                                        <input type="hidden" name="id" value="<?= $book->id ?>">
+                                        <button class="btn btn-danger" type="submit">
+                                            Delete
+                                        </button>
+                                    </form>
+                                <?php } else { ?>
+                                    <form action="/books/reserve" method="POST">
+                                        <input type="hidden" name="id" value="<?= $book->id ?>">
+                                        <button class="btn btn-success" type="submit">
+                                            Reserve book
+                                        </button>
+                                    </form>
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php } ?>
@@ -47,5 +55,4 @@
             </table>
         </div>
     </div>
-
 </div>

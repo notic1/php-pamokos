@@ -8,15 +8,24 @@
       <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/books">Books <span class="sr-only"></span></a>
+      </li>
     </ul>
 
     <ul class="navbar-nav float-right">
-      <li class="nav-item active">
-        <a class="nav-link" href="/login">Login <span class="sr-only"></span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/register">Register</a>
-      </li>
+      <?php if (App\Models\User::authenticated()) { ?>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+      <?php } else { ?>
+        <li class="nav-item active">
+          <a class="nav-link" href="/login">Login <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+      <?php } ?>
     </ul>
   </div>
 </nav>

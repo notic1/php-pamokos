@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Book;
+use App\Session;
 use App\View;
 
 class BookController extends Controller
@@ -52,8 +53,8 @@ class BookController extends Controller
 
         $book = new Book();
         $book->create($validated);
-
-        $_SESSION['success_message'] = 'Book successfully created.';
+        
+        Session::sessionMessage('Book successfully created.', 'success');
 
         return header('Location: /books');
     }
@@ -95,7 +96,7 @@ class BookController extends Controller
         
         $book->update($validated);
         
-        $_SESSION['success_message'] = 'Book successfully updated.';
+        Session::sessionMessage('Book successfully updated.', 'success');
 
         return header('Location: /books');
 

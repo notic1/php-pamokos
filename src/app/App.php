@@ -14,6 +14,12 @@ class App
         private Config $config
     ) {
         self::$database = new DB($config->db);
+        
+        if (isset($_SESSION['success_message']) && $_SESSION['success_message']['shown']) {
+            self::clearSessionMessages();
+        } else if (isset($_SESSION['success_message']) && !$_SESSION['success_message']['shown']) {
+            $_SESSION['success_message']['shown'] = true;
+        }
     }
 
     public function run()

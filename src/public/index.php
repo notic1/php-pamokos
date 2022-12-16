@@ -5,6 +5,7 @@ use App\Config\Config;
 use App\Controllers\AuthController;
 use App\Controllers\BookController;
 use App\Controllers\HomeController;
+use App\Controllers\UserBookController;
 use App\Middleware\IsAdmin;
 use App\Middleware\IsAuthenticated;
 use App\Router;
@@ -39,6 +40,16 @@ $router->register(
     '/register',
     [AuthController::class, 'register']
 );
+
+$router->register(
+    'get',
+    '/logout',
+    [AuthController::class, 'logout'],
+    [
+        IsAuthenticated::class
+    ]
+);
+
 $router->register('post', '/register', [AuthController::class, 'store']);
 $router->register('get', '/login', [AuthController::class, 'login']);
 $router->register('post', '/login', [AuthController::class, 'authenticate']);
@@ -90,6 +101,20 @@ $router->register(
     [
         IsAdmin::class
     ]
+);
+
+$router->register(
+    'post',
+    '/books/reserve',
+    [UserBookController::class, 'reserve'],
+    [IsAuthenticated::class]
+);
+
+$router->register(
+    'get',
+    '/user/books',
+    [UserBookController::class, 'index'],
+    [IsAuthenticated::class]
 );
 
 //Nustatom kur musu views failai

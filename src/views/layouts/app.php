@@ -13,9 +13,8 @@
     <div class="container">
         <?php include 'nav.php' ?>
         <?php if (isset($_SESSION['success_message']) && $_SESSION['success_message']) { ?>
-            <div class="alert alert-success" role="alert">
-                <?= $_SESSION['success_message'] ?>
-                <?php App\App::clearSessionMessages() ?> 
+            <div class="alert alert-<?= $_SESSION['success_message']['type'] ?>" role="alert">
+                <?= $_SESSION['success_message']['message'] ?>
             </div>
         <?php } ?>
         <?php include $viewPath ?>

@@ -74,5 +74,14 @@ class AuthController extends Controller
         $user->create($validated);
 
         $user->setSession();
+
+        return header('Location: /books');
+    }
+
+    public function logout()
+    {
+        User::logout();
+        
+        return header('Location: /');
     }
 }

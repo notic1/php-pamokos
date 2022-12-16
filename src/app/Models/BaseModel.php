@@ -93,7 +93,8 @@ abstract class BaseModel implements ModelInterface
         $result = $statement->fetch();
 
         if (!$result) {
-            throw new \Exception('Irasas nerastas');
+
+            return;
         }
 
         $this->values = $result;
@@ -106,6 +107,7 @@ abstract class BaseModel implements ModelInterface
         );
 
         $statement->execute();
+        //Grazinam irasus kaip objektus
         $result = $statement->fetchAll(PDO::FETCH_CLASS, static::class);
         
         return $result;

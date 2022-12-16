@@ -20,9 +20,10 @@ final class UserBooksMigration extends AbstractMigration
     {
         $table = $this->table('user_books');
 
-        $table->addColumn('user_id', 'integer', ['signed' => false])
+        $table
+                ->addColumn('user_id', 'integer', ['signed' => false])
                 ->addColumn('book_id', 'integer', ['signed' => false])
-                ->addColumn('created_at', 'datetime')
+                ->addColumn('created_at', 'datetime', ['default' => (new DateTime())->format('Y-m-d H:i:s')])
                 ->addColumn('deleted_at', 'datetime')
                 ->addForeignKey('user_id', 'users', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
                 ->addForeignKey('book_id', 'books', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION']);
