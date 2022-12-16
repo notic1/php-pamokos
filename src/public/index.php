@@ -2,6 +2,7 @@
 
 use App\App;
 use App\Config\Config;
+use App\Controllers\Admin\UserController;
 use App\Controllers\AuthController;
 use App\Controllers\BookController;
 use App\Controllers\HomeController;
@@ -68,99 +69,10 @@ require_once('../vendor/autoload.php');
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-// Uzregistrujam routus
 $router = new Router;
-//Home
-$router->register('get', '/', [HomeController::class, 'index']);
-//Authentication
-$router->register(
-    'get',
-    '/register',
-    [AuthController::class, 'register']
-);
 
-$router->register(
-    'get',
-    '/logout',
-    [AuthController::class, 'logout'],
-    [
-        IsAuthenticated::class
-    ]
-);
-
-$router->register('post', '/register', [AuthController::class, 'store']);
-$router->register('get', '/login', [AuthController::class, 'login']);
-$router->register('post', '/login', [AuthController::class, 'authenticate']);
-//Books resource
-$router->register(
-    'get',
-    '/books',
-    [BookController::class, 'index'],
-    [
-        IsAuthenticated::class
-    ]
-);
-$router->register(
-    'get',
-    '/books/create',
-    [BookController::class, 'create'],
-    [
-        IsAdmin::class
-    ]
-);
-$router->register(
-    'post',
-    '/books/create',
-    [BookController::class, 'store'],
-    [
-        IsAdmin::class
-    ]
-);
-$router->register(
-    'get',
-    '/books/edit',
-    [BookController::class, 'edit'],
-    [
-        IsAdmin::class
-    ]
-);
-$router->register(
-    'post',
-    '/books/update',
-    [BookController::class, 'update'],
-    [
-        IsAdmin::class
-    ]
-);
-$router->register(
-    'post',
-    '/books/delete',
-    [BookController::class, 'delete'],
-    [
-        IsAdmin::class
-    ]
-);
-
-$router->register(
-    'post',
-    '/books/reserve',
-    [UserBookController::class, 'reserve'],
-    [IsAuthenticated::class]
-);
-
-$router->register(
-    'post',
-    '/books/return',
-    [UserBookController::class, 'return'],
-    [IsAuthenticated::class]
-);
-
-$router->register(
-    'get',
-    '/user/books',
-    [UserBookController::class, 'index'],
-    [IsAuthenticated::class]
-);
+require_once '../routes/user.php';
+require_once '../routes/admin.php';
 
 //Nustatom kur musu views failai
 define('VIEW_PATH', __DIR__ . '/../views/');

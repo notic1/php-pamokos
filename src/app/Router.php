@@ -6,10 +6,13 @@ use App\Exceptions\RouteNotFoundException;
 
 class Router
 {
+    private const ROUTE_POST = 'post';
+    private const ROUTE_GET = 'get';
+
     private array $routes = [];
     private array $middleware = [];
 
-    public function register(
+    private function register(
         string $method,
         string $route,
         $action,
@@ -17,6 +20,24 @@ class Router
     ) {
         $this->routes[$method][$route] = $action;
         $this->middleware[$method][$route] = $middleware;
+
+        return $this;
+    }
+
+    public function get(
+        string $route,
+        $action,
+        array $middleware = []
+    ) {
+        return $this->register(self::ROUTE_GET, $route, $action, $middleware)   ;
+    }
+
+    public function post(
+        string $route,
+        $action,
+        array $middleware = []
+    ) {
+        return $this->register(self::ROUTE_POST, $route, $action, $middleware)   ;
     }
 
     public function resolve(string $uri, string $method)
