@@ -29,11 +29,11 @@ services:
       - MYSQL_ROOT_PASSWORD=secret
     ports:
       - 3306:3306
-  # mail:
-  #   container_name: docker-mail
-  #   image: mailhog/mailhog
-  #   logging:
-  #     driver: none
-  #   ports:
-  #     - 1025:1025
-  #     - 8025:8025
+  mail:
+    container_name: docker-mail
+    image: mailhog/mailhog
+    logging:
+      driver: none
+    ports:
+      - 1025:1025
+      - 8025:8025

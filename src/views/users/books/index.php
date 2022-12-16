@@ -41,10 +41,10 @@
                                         </button>
                                     </form>
                                 <?php } else { ?>
-                                    <form action="/books/reserve" method="POST">
+                                    <form action="/books/return" method="POST">
                                         <input type="hidden" name="id" value="<?= $book->id ?>">
-                                        <button class="btn btn-success <?= $book->book_taken ? 'disabled' : '' ?> " type="submit">
-                                            Reserve book
+                                        <button class="btn btn-success" type="submit">
+                                            Return book
                                         </button>
                                     </form>
                                 <?php } ?>

@@ -16,6 +16,9 @@
     <ul class="navbar-nav float-right">
       <?php if (App\Models\User::authenticated()) { ?>
         <li class="nav-item">
+          <a class="nav-link" href="/user/books">My books</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/logout">Logout</a>
         </li>
       <?php } else { ?>

@@ -2,7 +2,8 @@
     "require": {
         "robmorgan/phinx": "^0.13.2",
         "vlucas/phpdotenv": "^5.5",
-        "fakerphp/faker": "^1.20"
+        "fakerphp/faker": "^1.20",
+        "phpmailer/phpmailer": "^6.7"
     },
     "autoload": {
         "psr-4": {

@@ -21,7 +21,7 @@ class User extends Authenticatable
     public function takenBooks()
     {
         $statement = $this->pdo->prepare(
-            'SELECT * FROM user_books LEFT JOIN books ON books.id = user_books.book_id WHERE user_id = ?'
+            'SELECT * FROM user_books LEFT JOIN books ON books.id = user_books.book_id WHERE user_id = ? AND user_books.deleted_at IS NULL'
         );
 
         $statement->execute([$this->id]);
@@ -41,11 +41,31 @@ class User extends Authenticatable
     public function getBook(Book $book) 
     {
         $statement = $this->pdo->prepare(
-            'SELECT * FROM user_books LEFT JOIN books ON books.id = user_books.book_id WHERE user_id = ? AND book_id = ?'
+            'SELECT * FROM user_books LEFT JOIN books ON books.id = user_books.book_id WHERE user_id = ? AND book_id = ? AND deleted_at IS NULL'
         );
         $statement->execute([$this->id, $book->id]);
         $result = $statement->fetch();
 
         return $result;
+    }
+
+    public function returnBook(Book $book): bool
+    {
+        $this->pdo->beginTransaction();
+        try {
+            $statement = $this->pdo->prepare(
+                'UPDATE user_books SET deleted_at = NOW() WHERE user_id = ? AND book_id = ?'
+            );
+            $statement->execute([$this->id, $book->id]);
+            $book->increaseQuantity();    
+        } catch (\Exception $exception) {
+            $this->pdo->rollBack();
+
+            return false;
+        }
+        
+        $this->pdo->commit();
+
+        return true;
     }
 }

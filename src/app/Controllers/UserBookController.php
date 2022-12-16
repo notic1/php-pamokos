@@ -47,6 +47,15 @@ class UserBookController extends Controller
     {
         $books = User::getUser()->takenBooks();
 
-        echo View::make('books/index', ['books' => $books]);
+        echo View::make('users/books/index', ['books' => $books]);
+    }
+
+    public function return()
+    {
+        $user = User::getUser();
+        $book = (new Book)->find($_POST['id']);
+        $user->returnBook($book);
+
+        return header('Location: /user/books');
     }
 }
