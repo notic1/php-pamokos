@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Exceptions\RouteNotFoundException;
 use App\Models\User;
+use App\Session;
 use App\View;
 use Exception;
 
@@ -32,7 +34,7 @@ class AuthController extends Controller
 
         $email = $_POST['email'];
         $password = $_POST['password'];
-        
+
         if ($email && $password) {
             $user = new User;
             $user->login($email, $password);
@@ -81,7 +83,61 @@ class AuthController extends Controller
     public function logout()
     {
         User::logout();
-        
+
+        return header('Location: /');
+    }
+
+    public function forgotPassword()
+    {
+        echo View::make('auth/forgot-password');
+    }
+
+    public function forgotPasswordPost()
+    {
+        $user = (new User)->findByValue('email', $_POST['email']);
+
+        $user->generateRememberToken();
+
+        Session::sessionMessage('Token generated', 'success');
+
+        return header('Location: /login');
+    }
+
+    public function forgotPasswordForm()
+    {
+        $user = (new User)->findByValue('forgot_token', $_GET['token']);
+
+        if ($user) {
+
+            echo View::make('auth/password-reset');
+            return;
+        }
+
+        throw new RouteNotFoundException;
+    }
+
+    public function forgotPasswordFormPost()
+    {
+        $token = $_POST['token'];
+        unset($_POST['token']);
+        $validated = $this->validate(
+            $_POST,
+            [
+                'password' => [
+                    'required',
+                    'min:6',
+                    'confirmed'
+                ]
+            ]
+        );
+
+        $user = (new User)
+            ->findByValue('forgot_token', $token);
+        $user->update($validated);
+        $user->setSession();
+        $user->unsetToken();
+        Session::sessionMessage('Password changed', 'success');
+
         return header('Location: /');
     }
 }

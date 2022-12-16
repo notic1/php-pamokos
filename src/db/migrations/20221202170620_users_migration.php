@@ -24,7 +24,8 @@ final class UsersMigration extends AbstractMigration
             ->addColumn('email', 'string')
             ->addColumn('password', 'string')
             ->addColumn('is_active', 'boolean', ['default' => 1])
-            ->addColumn('is_admin', 'boolean', ['default' => 0]);
+            ->addColumn('is_admin', 'boolean', ['default' => 0])
+            ->addColumn('forgot_token', 'string', ['length' => 60]);
 
         $table->create();
     }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Session;
+use Ramsey\Uuid\Uuid;
 
 class Authenticatable extends BaseModel
 {
@@ -64,5 +65,21 @@ class Authenticatable extends BaseModel
         setcookie('user_session', '', -1);
         
         session_destroy();
+    }
+
+    public function generateRememberToken()
+    {
+        $uuid = Uuid::uuid1();
+
+        $this->update(
+            ['forgot_token' => $uuid->toString()]
+        );
+    }
+
+    public function unsetToken()
+    {
+        $this->update(
+            ['forgot_token' => NULL]
+        );
     }
 }

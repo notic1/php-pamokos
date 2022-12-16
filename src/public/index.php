@@ -74,6 +74,14 @@ $router = new Router;
 require_once '../routes/user.php';
 require_once '../routes/admin.php';
 
+//sugeneruoti linka paswordo pakeitimui
+
+//routo ir metodo kur sugenruos 
+
+//routo resolvinimo ir metodo 
+
+//tokenas useriu lenteleje
+
 //Nustatom kur musu views failai
 define('VIEW_PATH', __DIR__ . '/../views/');
 

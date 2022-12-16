@@ -27,10 +27,14 @@
                 </div>
             <?php } ?>
         </div>
-        <div>
+        <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-primary">
                 Submit
             </button>
+
+            <a class="btn btn-secondary" href="/forgot-password">
+                Forgot password
+            </a>
         </div>
     </form>
 </div>

@@ -47,7 +47,7 @@ class Router
         $method = strtolower($method);
         $action = $this->routes[$method][$route] ?? null;
         $middleware = $this->middleware[$method][$route] ?? null;
-        
+
         if (!empty($middleware)) {
             foreach ($middleware as $mid) {
                 call_user_func_array([$mid, 'handle'], []);

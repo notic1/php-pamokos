@@ -83,7 +83,7 @@ abstract class BaseModel implements ModelInterface
         return true;
     }
 
-    public function findByValue(string $key, string $value): void
+    public function findByValue(string $key, string $value)
     {
         $statement = $this->pdo->prepare(
             'SELECT * FROM ' . $this->table . ' WHERE ' . $key . ' = ?'
@@ -98,6 +98,8 @@ abstract class BaseModel implements ModelInterface
         }
 
         $this->values = $result;
+        
+        return $this;
     }
 
     public function getAll(): array
