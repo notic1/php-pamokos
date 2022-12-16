@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Exceptions\RouteNotFoundException;
+use App\Mail;
 use App\Models\User;
 use App\Session;
 use App\View;
@@ -96,9 +97,24 @@ class AuthController extends Controller
     {
         $user = (new User)->findByValue('email', $_POST['email']);
 
+        if (!$user) {
+
+            throw new RouteNotFoundException();
+        }
+
         $user->generateRememberToken();
 
-        Session::sessionMessage('Token generated', 'success');
+        $mailer = new Mail;
+
+        $mailer->sendMail(
+            $user->email,
+            'Forgot password',
+            '
+                <p>
+                    Reset password <a href="http://localhost/forgot-password/form?token='. $user->forgot_token .'">here </a>
+                </p>
+            '
+        );
 
         return header('Location: /login');
     }
