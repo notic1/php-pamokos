@@ -15,12 +15,14 @@ class BooksSeeder extends AbstractSeed
      */
     public function run(): void
     {
+        ini_set('memory_limit','2048M');
         $seeds = [];
-        for($i = 0; $i < 10; $i++) {
+        $faker = Faker\Factory::create();
+        for($i = 0; $i < 100000; $i++) {
             $date = new DateTime(random_int(1900, 2022) . '-' . random_int(1, 12) . '-' . random_int(1, 30));
             $seeds[$i] = [
-                'author'     => 'John Doe',
-                'title'      => 'Lorem ipsum',
+                'author'     => $faker->name(),
+                'title'      => $faker->realText(100),
                 'year_released'  => $date->format('Y-m-d'),
                 'quantity' => random_int(0, 100)
             ];

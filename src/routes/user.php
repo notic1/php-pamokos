@@ -19,6 +19,7 @@ $router->get('/books', [BookController::class, 'index'], [IsAuthenticated::class
 $router->post('/books/reserve', [UserBookController::class, 'reserve'], [IsAuthenticated::class]);
 $router->post('/books/return', [UserBookController::class, 'return'], [IsAuthenticated::class]);
 $router->get('/user/books', [UserBookController::class, 'index'], [IsAuthenticated::class]);
+$router->post('/books/search', [BookController::class, 'search'], [IsAuthenticated::class]);
 
 $router->get('/forgot-password', [AuthController::class, 'forgotPassword']);
 $router->post('/forgot-password', [AuthController::class, 'forgotPasswordPost']);

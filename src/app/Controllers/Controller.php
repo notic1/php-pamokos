@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Exceptions\RouteNotFoundException;
+
 class Controller
 {
     protected function validate(array $data, array $validationRules): array
@@ -76,5 +78,46 @@ class Controller
         $d = \DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
 
+    }
+
+    protected function checkFormInput($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
+    protected function getPages(int $currentPage, int $pagesCount)
+    {
+
+        if (!$currentPage || !is_int($currentPage)) {
+            $currentPage = 1;
+        }
+
+        if ($pagesCount < $currentPage || $currentPage < 0) {
+            throw new RouteNotFoundException();
+        } 
+
+        $startPage = ($currentPage <= 2) ? 1 : $currentPage - 2;
+        $endPage = 4 + $startPage;
+
+        $endPage = ($pagesCount < $endPage) ? $pagesCount : $endPage;
+        $diff = $startPage - $endPage + 4;
+
+        if ($startPage - $diff > 0) {
+
+            $startPage -= $diff;
+        }
+
+        $paginator = [];
+        for ($i = $startPage; $i <= $endPage; $i++) {
+            $paginator[] = [
+                'is_active' => $currentPage == $i,
+                'page' => $i
+            ];
+        };
+
+        return $paginator;
     }
 }

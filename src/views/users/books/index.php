@@ -1,5 +1,4 @@
 <div class="col-10 mx-auto">
-
     <div class="card">
         <div class="card-header d-flex justify-content-between align--items-center">
             <span>

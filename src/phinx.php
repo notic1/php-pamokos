@@ -20,8 +20,8 @@ return
         ],
         'development' => [
             'adapter' => 'mysql',
-            'host' => 'db',
-            'name' => 'library_management',
+            'host' => 'docker-db',
+            'name' => 'library_managment',
             'user' => 'root',
             'pass' => 'secret',
             'port' => '3306',

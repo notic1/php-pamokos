@@ -2,7 +2,7 @@
     "require": {
         "robmorgan/phinx": "^0.13.2",
         "vlucas/phpdotenv": "^5.5",
-        "fakerphp/faker": "^1.20",
+        "fakerphp/faker": "^1.21",
         "phpmailer/phpmailer": "^6.7",
         "ramsey/uuid": "^4.6"
     },
